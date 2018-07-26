@@ -62,7 +62,9 @@ function getOperations(files, newFileName, options) {
     if (originalFileName.toLowerCase() !== outputFileName.toLowerCase()) {
       alreadyExists = pathExists.sync(outputFileName);
     }
-    operations.push({text: operationText, original: originalFileName, output: outputFileName, conflict: conflict, alreadyExists: alreadyExists});
+    if (pathExists.sync(originalFileName.dir)) {
+      operations.push({text: operationText, original: originalFileName, output: outputFileName, conflict: conflict, alreadyExists: alreadyExists});
+    }
 
     fileIndex[fileObj.newNameExt].index += 1;
   });

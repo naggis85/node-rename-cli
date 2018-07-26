@@ -115,10 +115,7 @@ function renameFiles() {
       if (!hasConflicts) {
         console.log('');
       }
-      let conflictPrompt = prompt('Would you like to proceed? (y/n) ');
-      if (conflictPrompt === 'y') {
-        rename.run(operations, options);
-      }
+      rename.run(operations, options);
     }
   } else {
     rename.run(operations, options);

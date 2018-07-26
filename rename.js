@@ -53,9 +53,10 @@ function getOperations(files, newFileName, options) {
     }
 
     // ADD to operations
+    let outputLocation= path.normalize(newFileName.dir);
     let operationText = fileObj.base + ' → ' + fileObj.newName + fileObj.newNameExt;
     let originalFileName = path.format({dir: fileObj.dir, base: fileObj.base});
-    let outputFileName = path.format({dir: fileObj.dir, base: fileObj.newName + fileObj.newNameExt});
+    let outputFileName = path.format({dir: outputLocation, base: fileObj.newName + fileObj.newNameExt});
     let conflict = (operations.find(function(o) { return o.output === outputFileName; }) ? true : false);
     let alreadyExists = false;
     if (originalFileName.toLowerCase() !== outputFileName.toLowerCase()) {

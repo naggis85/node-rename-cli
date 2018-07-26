@@ -72,6 +72,23 @@ function parseArgs() {
   }
 }
 
+function verboseOutput(opts) {
+  let conflicts = false;
+  let existing = false;
+  console.log('');
+  opts.forEach(function(value) {
+    if (value.alreadyExists) {
+      console.log(chalk.red(value.text));
+      existing = true;
+    } else if (value.conflict) {
+      console.log(chalk.yellow(value.text));
+      conflicts = true;
+    } else {
+      console.log(value.text);
+    }
+  });
+}
+
 function renameFiles() {
   let newFileName = path.parse(argv._.pop());
   let files = rename.getFileArray(argv._);
@@ -81,21 +98,8 @@ function renameFiles() {
   
   // Print off renames if simulated or verbose options used, or warn if there are file
   // conflicts and the force option isn't used.
-  if (options.simulate || options.verbose || (!options.force && !options.keep && hasConflicts)) {
-    let conflicts = false;
-    let existing = false;
-    console.log('');
-    operations.forEach(function(value) {
-      if (value.alreadyExists) {
-        console.log(chalk.red(value.text));
-        existing = true;
-      } else if (value.conflict) {
-        console.log(chalk.yellow(value.text));
-        conflicts = true;
-      } else {
-        console.log(value.text);
-      }
-    });
+  if (((options.simulate && !options.verbose) || (!options.simulate && options.verbose)) && (!options.force && !options.keep && hasConflicts)) {
+    verboseOutput(operations);
     if (existing || conflicts) {
       console.log('');
     }
@@ -117,6 +121,11 @@ function renameFiles() {
       }
       rename.run(operations, options);
     }
+  } else if (options.verbose && options.force) {
+    verboseOutput(operations);
+    rename.run(operations, options);
+  } else if (options.force) {
+    rename.run(operations, options);
   } else {
     rename.run(operations, options);
   }

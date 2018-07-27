@@ -53,8 +53,8 @@ fs.ensureFile(userReplacements, err => {
 });
 
 function parseArgs() {
-  if (argv.i) { // view online hlep
-    opn('https://github.com/jhotmann/node-rename-cli');
+  if (argv.i) { // view online help
+    opn('https://github.com/nagis85/node-rename-cli');
     if (process.platform !== 'win32') {
       process.exit(0);
     }

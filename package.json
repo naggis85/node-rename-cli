@@ -10,13 +10,13 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "pkg -o bin\\rname -t node9-win-x64 ."
+    "build": "pkg -o bin\\rname -t node8-linux,node8-win ."
   },
   "author": "Jordan Hotmann",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jhotmann/node-rename-cli.git"
+    "url": "https://github.com/naggis85/node-rename-cli.git"
   },
   "dependencies": {
     "blessed": "^0.1.81",

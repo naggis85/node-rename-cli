@@ -34,3 +34,4 @@ test
 
 # bin directory
 bin/*.*
+bin/*rname*

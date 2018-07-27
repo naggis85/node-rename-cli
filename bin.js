@@ -119,12 +119,15 @@ function renameFiles() {
       if (!hasConflicts) {
         console.log('');
       }
-      rename.run(operations, options);
+      let conflictPrompt = prompt('Would you like to proceed? (y/n) ');
+      if (conflictPrompt === 'y') {
+        rename.run(operations, options);
+      }
     }
   } else if (options.verbose && options.force) {
     verboseOutput(operations);
     rename.run(operations, options);
-  } else if (options.force) {
+  } else if (options.force && !options.verbose) {
     rename.run(operations, options);
   } else {
     rename.run(operations, options);

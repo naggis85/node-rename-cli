@@ -17,6 +17,15 @@ const UNDO_FILE = os.homedir() + '/.rename/undo.json';
 
 const REPLACEMENTS = Object.assign(defaultReplacements, userReplacements);
 
+function wait(ms) {
+  var start = new Date().getTime();
+  var end = start;
+  while(end < start + ms) {
+    end = new Date().getTime();
+  }
+  if(options.verbose) { console.log(''); console.log("Waiting is ready!"); }
+}
+
 function getOperations(files, newFileName, options) {
   let operations = [];
 
@@ -62,13 +71,22 @@ function getOperations(files, newFileName, options) {
     if (originalFileName.toLowerCase() !== outputFileName.toLowerCase()) {
       alreadyExists = pathExists.sync(outputFileName);
     }
-    if (pathExists.sync(originalFileName.dir)) {
+    
+    //wait(3000);
+    let _filePath = fileObj.dir+path.sep+fileObj.base;
+////    if(options.verbose) { console.log(''); console.log("Result from pathExists: "+JSON.stringify(pathExists(_filePath))); }
+//    pathExists(_filePath).then (()=> {
+//      if(options.verbose) { console.log(''); console.log(_filePath+" is ready to be processed!"); }
+//      operations.push({text: operationText, original: originalFileName, output: outputFileName, conflict: conflict, alreadyExists: alreadyExists});
+//    });
+    if (path.resolve(_filePath) && pathExists.sync(_filePath)) {
+      if(options.verbose) { console.log(''); console.log(_filePath+" is ready to be processed!"); }
       operations.push({text: operationText, original: originalFileName, output: outputFileName, conflict: conflict, alreadyExists: alreadyExists});
     }
 
     fileIndex[fileObj.newNameExt].index += 1;
   });
-
+  
   return operations;
 }
 
